@@ -1,6 +1,6 @@
 // Tetris by Lutz
 
-#include "Tetromino.h"
+#include "../public/Tetromino.h"
 
 
 // Sets default values
@@ -22,6 +22,16 @@ void ATetromino::BeginPlay()
 void ATetromino::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+}
+
+void ATetromino::MoveLeftIfPossible()
+{
+	// TODO stopmovement if will get out of bounds
+	// TODO think if possible to use ONE method (value +- one, using axis mapping)
+	FVector NewLocation = GetActorLocation() + FVector(0, -gridsize, 0);
+	SetActorLocation(NewLocation);
+	UE_LOG(LogTemp, Warning, TEXT("I got called."));
 
 }
 
