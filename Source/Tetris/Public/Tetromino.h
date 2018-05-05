@@ -31,6 +31,12 @@ private:
 	UFUNCTION(BlueprintCallable)
 	void MoveLeftIfPossible();
 
+	UFUNCTION(BlueprintCallable)
+	void MoveRightIfPossible();
+
+	UFUNCTION(BlueprintCallable)
+	void RotateCW_IfPossible();
+
 	UPROPERTY(EditAnywhere)
 	int32 gridsize = 120;
 

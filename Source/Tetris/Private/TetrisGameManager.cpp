@@ -29,6 +29,9 @@ void UTetrisGameManager::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	//GetWorld()->GetTimeSeconds();
+	//UE_LOG(LogTemp, Warning, TEXT("I got called."));
+
+
 }
 

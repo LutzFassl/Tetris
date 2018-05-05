@@ -26,12 +26,29 @@ void ATetromino::Tick(float DeltaTime)
 }
 
 void ATetromino::MoveLeftIfPossible()
-{
+{	// TODO Introduce speed, atm not possible to hold arrow
 	// TODO stopmovement if will get out of bounds
 	// TODO think if possible to use ONE method (value +- one, using axis mapping)
 	FVector NewLocation = GetActorLocation() + FVector(0, -gridsize, 0);
 	SetActorLocation(NewLocation);
-	UE_LOG(LogTemp, Warning, TEXT("I got called."));
+	
+}
+
+// TODO move only between frames? To fix blurry movement
+
+void ATetromino::MoveRightIfPossible()
+{
+	FVector NewLocation = GetActorLocation() + FVector(0, gridsize, 0);
+	SetActorLocation(NewLocation);
+}
+
+void ATetromino::RotateCW_IfPossible()
+{
+	// TODO stopmovement if will get out of bounds
+	// TODO think if possible to use ONE method (value +- one, using axis mapping)
+	FRotator NewRotation = GetActorRotation() + FRotator(0, 0, 90);
+	SetActorRotation(NewRotation);
+	
 
 }
 
