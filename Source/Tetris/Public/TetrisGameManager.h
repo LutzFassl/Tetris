@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
-#include "GameManager.generated.h"
+#include "TetrisGameManager.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TETRIS_API UGameManager : public USceneComponent
+class TETRIS_API UTetrisGameManager : public USceneComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UGameManager();
+	UTetrisGameManager();
 
 protected:
 	// Called when the game starts
