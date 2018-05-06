@@ -27,6 +27,13 @@ private:
 	UPROPERTY(EditAnywhere)
 	float interval = 1.f;
 
+	// To calculate custom "tick" or "interval" within tick every frame
+	int32 lastInt = 0;
+
+	APlayerController* TetrominoController = nullptr;
+	//AController* TetrominoController = nullptr;
+	APawn* CurrentPawn = nullptr;
+
 		
 	
 };

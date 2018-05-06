@@ -1,6 +1,6 @@
 // Tetris by Lutz
 
-#include "TetrisGameManager.h"
+#include "../public/TetrisGameManager.h"
 
 
 // Sets default values for this component's properties
@@ -18,9 +18,6 @@ UTetrisGameManager::UTetrisGameManager()
 void UTetrisGameManager::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
 }
 
 
@@ -29,9 +26,23 @@ void UTetrisGameManager::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	//GetWorld()->GetTimeSeconds();
-	//UE_LOG(LogTemp, Warning, TEXT("I got called."));
+	// Create & Calculate Integers for custom (slowed) ticking
+	float Time = GetWorld()->GetTimeSeconds();
+	int32 thisInt = FMath::DivideAndRoundDown(Time, interval);
+	//UE_LOG(LogTemp, Warning, TEXT("lastInt: %d, thisInt: %d"), lastInt, thisInt);
 
+	//Actual Tick
+	if (thisInt > lastInt)
+	{
+		// TODO possessed pawn can be find only on PossessedPawnChange and dont need to be checked every tick
+		TetrominoController = GetWorld()->GetFirstPlayerController();
+		CurrentPawn = TetrominoController->GetPawn();
 
+		if (!ensure(TetrominoController) || (!ensure(CurrentPawn))) { return; }
+		//UE_LOG(LogTemp, Warning, TEXT("ControllerName: %s, PawnName: %s"), *TetrominoController->GetName(), *CurrentPawn->GetName());
+
+		
+		lastInt = thisInt;
+	}
 }
 
