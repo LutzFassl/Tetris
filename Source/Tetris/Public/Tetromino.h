@@ -33,13 +33,27 @@ private:
 
 	UFUNCTION(BlueprintCallable)
 	void MoveRightIfPossible();
+	
+	//Function exists twice here and in GameManager. To make better?
+	UFUNCTION(BlueprintCallable)
+	void MoveDownIfPossible();
 
 	UFUNCTION(BlueprintCallable)
 	void RotateCW_IfPossible();
 
+	//TODO delete and get from GameManager
 	UPROPERTY(EditAnywhere)
 	int32 gridsize = 120;
 
+	// TODO Maybe read those from the gameBaseMode or GameManager
+	UPROPERTY(EditAnywhere)
+	int32 boundaryLeft = 0;
+
+	UPROPERTY(EditAnywhere)
+	int32 boundaryRight = 1196;
+
+	UPROPERTY(EditAnywhere)
+	int32 boundaryBottom = 0;
 	
 	
 };

@@ -40,9 +40,23 @@ void UTetrisGameManager::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 
 		if (!ensure(TetrominoController) || (!ensure(CurrentPawn))) { return; }
 		//UE_LOG(LogTemp, Warning, TEXT("ControllerName: %s, PawnName: %s"), *TetrominoController->GetName(), *CurrentPawn->GetName());
-
+		MovePawnDownIfPossible();
 		
 		lastInt = thisInt;
 	}
+}
+
+void UTetrisGameManager::MovePawnDownIfPossible()
+{	// TODO refactor to MoveLeftIfPossible Code, once it was reworked
+	FVector NewLocation = CurrentPawn->GetActorLocation() + FVector(0,0, -gridsize);
+	if (NewLocation.Z > 0 ) 
+	{
+		CurrentPawn->SetActorLocation(NewLocation);
+		UE_LOG(LogTemp, Warning, TEXT("Setting Z Location: %f"), CurrentPawn->GetActorLocation().Z);
+	}
+	
+
+	// if any of the cubes has a cube under him OR or if position wants to go below minimum
+
 }
 

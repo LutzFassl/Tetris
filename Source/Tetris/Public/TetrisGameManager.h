@@ -16,6 +16,9 @@ public:
 	// Sets default values for this component's properties
 	UTetrisGameManager();
 
+	UPROPERTY(EditAnywhere)
+	int32 gridsize = 120;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -23,6 +26,7 @@ protected:
 private:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void MovePawnDownIfPossible();
 
 	UPROPERTY(EditAnywhere)
 	float interval = 1.f;
@@ -31,7 +35,6 @@ private:
 	int32 lastInt = 0;
 
 	APlayerController* TetrominoController = nullptr;
-	//AController* TetrominoController = nullptr;
 	APawn* CurrentPawn = nullptr;
 
 		

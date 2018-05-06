@@ -30,7 +30,10 @@ void ATetromino::MoveLeftIfPossible()
 	// TODO stopmovement if will get out of bounds
 	// TODO think if possible to use ONE method (value +- one, using axis mapping)
 	FVector NewLocation = GetActorLocation() + FVector(0, -gridsize, 0);
-	SetActorLocation(NewLocation);
+	if (NewLocation.Y > boundaryLeft)
+	{
+		SetActorLocation(NewLocation);
+	}
 	
 }
 
@@ -39,18 +42,33 @@ void ATetromino::MoveLeftIfPossible()
 void ATetromino::MoveRightIfPossible()
 {
 	FVector NewLocation = GetActorLocation() + FVector(0, gridsize, 0);
-	SetActorLocation(NewLocation);
+	if (NewLocation.Y < boundaryRight)
+	{
+		SetActorLocation(NewLocation);
+	}
+}
+
+void ATetromino::MoveDownIfPossible()
+{
+	FVector NewLocation = GetActorLocation() + FVector(0, 0, -gridsize);
+
+	if (NewLocation.Z > boundaryBottom)
+	{
+		SetActorLocation(NewLocation);
+	}
 }
 
 void ATetromino::RotateCW_IfPossible()
 {
 	// TODO stopmovement if will get out of bounds
 	// TODO think if possible to use ONE method (value +- one, using axis mapping)
+	// collision control
 	FRotator NewRotation = GetActorRotation() + FRotator(0, 0, 90);
 	SetActorRotation(NewRotation);
-	
-
 }
+
+
+
 
 // Called to bind functionality to input
 void ATetromino::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
