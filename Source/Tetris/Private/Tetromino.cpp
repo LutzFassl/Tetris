@@ -25,7 +25,7 @@ void ATetromino::Tick(float DeltaTime)
 
 }
 
-void ATetromino::MoveLeftIfPossible()
+bool ATetromino::MoveLeftIfPossible()
 {	// TODO Introduce speed, atm not possible to hold arrow
 	// TODO think if possible to use ONE method (value +- one, using axis mapping)
 	FVector Translation = FVector(0, -gridsize, 0);
@@ -34,12 +34,17 @@ void ATetromino::MoveLeftIfPossible()
 	if (ValidateNewLocationForEachCube(Translation))
 	{
 		SetActorLocation(NewLocation);
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
 // TODO move only between frames? To fix blurry movement
 
-void ATetromino::MoveRightIfPossible()
+bool ATetromino::MoveRightIfPossible()
 {
 	FVector Translation = FVector(0, gridsize, 0);
 	FVector NewLocation = GetActorLocation() + Translation;
@@ -47,10 +52,15 @@ void ATetromino::MoveRightIfPossible()
 	if (ValidateNewLocationForEachCube(Translation))
 	{
 		SetActorLocation(NewLocation);
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
-void ATetromino::MoveDownIfPossible()
+bool ATetromino::MoveDownIfPossible()
 {
 	FVector Translation = FVector(0, 0, -gridsize);
 	FVector NewLocation = GetActorLocation() + Translation;
@@ -58,6 +68,11 @@ void ATetromino::MoveDownIfPossible()
 	if (ValidateNewLocationForEachCube(Translation))
 	{
 		SetActorLocation(NewLocation);
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 	
 }

@@ -16,7 +16,7 @@ public:
 	ATetromino();
 
 	UFUNCTION(BlueprintCallable)
-	void MoveDownIfPossible();
+	bool MoveDownIfPossible();
 
 protected:
 	// Called when the game starts or when spawned
@@ -32,10 +32,10 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION(BlueprintCallable)
-	void MoveLeftIfPossible();
+	bool MoveLeftIfPossible();
 
 	UFUNCTION(BlueprintCallable)
-	void MoveRightIfPossible();
+	bool MoveRightIfPossible();
 	
 	//Function exists twice here and in GameManager. To make better?
 	

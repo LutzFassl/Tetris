@@ -28,7 +28,6 @@ protected:
 private:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void MovePawnDownIfPossible();
 
 	UPROPERTY(EditAnywhere)
 	float interval = 1.f;
