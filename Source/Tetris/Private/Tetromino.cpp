@@ -30,10 +30,10 @@ void ATetromino::MoveLeftIfPossible()
 	// TODO stopmovement if will get out of bounds
 	// TODO think if possible to use ONE method (value +- one, using axis mapping)
 	FVector NewLocation = GetActorLocation() + FVector(0, -gridsize, 0);
-	if (NewLocation.Y > boundaryLeft)
-	{
-		SetActorLocation(NewLocation);
-	}
+	//if (NewLocation.Y > boundaryLeft)
+		//{
+		SetActorLocation(NewLocation,true);
+		//}
 	
 }
 
@@ -42,20 +42,20 @@ void ATetromino::MoveLeftIfPossible()
 void ATetromino::MoveRightIfPossible()
 {
 	FVector NewLocation = GetActorLocation() + FVector(0, gridsize, 0);
-	if (NewLocation.Y < boundaryRight)
-	{
+	//if (NewLocation.Y < boundaryRight)
+		//{
 		SetActorLocation(NewLocation);
-	}
+	//}
 }
 
 void ATetromino::MoveDownIfPossible()
 {
 	FVector NewLocation = GetActorLocation() + FVector(0, 0, -gridsize);
 
-	if (NewLocation.Z > boundaryBottom)
-	{
+	//if (NewLocation.Z > boundaryBottom)
+	//{
 		SetActorLocation(NewLocation);
-	}
+	//}
 }
 
 void ATetromino::RotateCW_IfPossible()
