@@ -124,21 +124,33 @@
 <node CREATED="1525551741195" ID="ID_1079577063" MODIFIED="1525551741808" TEXT="https://docs.unrealengine.com/en-us/Gameplay/HowTo/UsingCameras/Blueprints"/>
 <node CREATED="1525554633298" ID="ID_980976798" MODIFIED="1525554633704" TEXT="https://tetris.com/play-tetris"/>
 </node>
-<node CREATED="1525539227498" ID="ID_739895697" MODIFIED="1525539230067" POSITION="right" TEXT="TODO">
-<node CREATED="1525553881618" ID="ID_1805805313" MODIFIED="1525553884634" TEXT="colors, burnished?"/>
-<node CREATED="1525555951355" ID="ID_22687833" MODIFIED="1525555954253" TEXT="Shitty music :-)"/>
-<node CREATED="1525556220693" ID="ID_1921834267" MODIFIED="1525556260641" TEXT="Create a new BaseStaticMesh that will be used for all cubes--&gt; To set collision settings, material, etc for all"/>
-<node CREATED="1525556995757" ID="ID_1005553884" MODIFIED="1525557002993" TEXT="Replace input with axis values"/>
-<node CREATED="1525557161350" ID="ID_269059010" MODIFIED="1525557174966" TEXT="Pointer zu den static meshes initialisieren f&#xfc;r abfrage ob reihe voll ist"/>
-<node CREATED="1525606726307" FOLDED="true" ID="ID_952946407" MODIFIED="1525612269898" TEXT="Check coordinate most right of pawn">
-<node CREATED="1525606891862" ID="ID_1151823487" MODIFIED="1525606899058" TEXT="or just invisible collision???"/>
-</node>
+<node CREATED="1525641510756" ID="ID_1635744755" MODIFIED="1525641514004" POSITION="right" TEXT="Collision Problem">
+<node CREATED="1525641518854" ID="ID_1324563033" MODIFIED="1525641524275" TEXT="Initial Thoughts">
 <node CREATED="1525612322817" ID="ID_110961700" MODIFIED="1525612356054" TEXT="invisible box around tetromino">
 <node CREATED="1525612333823" ID="ID_1756955006" MODIFIED="1525612378043" TEXT="if collision of invisible box -&gt; dont to"/>
 </node>
+<node CREATED="1525606726307" FOLDED="true" ID="ID_952946407" MODIFIED="1525641533801" TEXT="Check coordinate most right of pawn">
+<node CREATED="1525606891862" ID="ID_1151823487" MODIFIED="1525606899058" TEXT="or just invisible collision???"/>
+</node>
+<node CREATED="1525552838735" ID="ID_382977929" MODIFIED="1525552846809" TEXT="NoCollision gew&#xe4;hlt bei static meshes">
+<node CREATED="1525552846810" ID="ID_1558819538" MODIFIED="1525552854061" TEXT="Funktionioert overlap event trotzdem?"/>
+</node>
+<node CREATED="1525640734897" ID="ID_31912138" MODIFIED="1525640748257" TEXT="Need UstaticMesh f&#xfc;r Boxcollision in form des tetromino"/>
+<node CREATED="1525641379384" ID="ID_921378677" MODIFIED="1525641394007" TEXT="use bool output of SetActorLocation function"/>
+</node>
+<node CREATED="1525641582519" ID="ID_123768814" MODIFIED="1525641600619" TEXT="Current Approach">
+<node CREATED="1525641601139" ID="ID_381653634" MODIFIED="1525641653494" TEXT="Write Function to check at intended movement, if one of the sub-cubes will be out of bounds after the movement --&gt; then do not move it"/>
+</node>
+</node>
+<node CREATED="1525539227498" ID="ID_739895697" MODIFIED="1525539230067" POSITION="right" TEXT="TODO">
+<node CREATED="1525553881618" ID="ID_1805805313" MODIFIED="1525553884634" TEXT="colors, burnished?"/>
+<node CREATED="1525555951355" ID="ID_22687833" MODIFIED="1525555954253" TEXT="Shitty music :-)"/>
+<node CREATED="1525556995757" ID="ID_1005553884" MODIFIED="1525557002993" TEXT="Replace input with axis values"/>
+<node CREATED="1525557161350" ID="ID_269059010" MODIFIED="1525557174966" TEXT="Pointer zu den static meshes initialisieren f&#xfc;r abfrage ob reihe voll ist"/>
 <node CREATED="1525553891714" FOLDED="true" ID="ID_1610668642" MODIFIED="1525555949218" TEXT="Done">
 <node CREATED="1525550926006" ID="ID_583457383" MODIFIED="1525550931734" TEXT="set right chivalry at beginplay"/>
 <node CREATED="1525557204097" ID="ID_1038228351" MODIFIED="1525557209863" TEXT="Tick benutzen zum bewegen"/>
+<node CREATED="1525556220693" ID="ID_1921834267" MODIFIED="1525556260641" TEXT="Create a new BaseStaticMesh that will be used for all cubes--&gt; To set collision settings, material, etc for all"/>
 </node>
 </node>
 <node CREATED="1525551170303" ID="ID_1353526173" MODIFIED="1525551171658" POSITION="right" TEXT="Questions">
@@ -152,9 +164,6 @@
 </node>
 </node>
 <node CREATED="1525545218488" ID="ID_1477333266" MODIFIED="1525615286624" POSITION="right" TEXT="Notes/Ideas">
-<node CREATED="1525552838735" ID="ID_382977929" MODIFIED="1525552846809" TEXT="NoCollision gew&#xe4;hlt bei static meshes">
-<node CREATED="1525552846810" ID="ID_1558819538" MODIFIED="1525552854061" TEXT="Funktionioert overlap event trotzdem?"/>
-</node>
 <node CREATED="1525615287697" ID="ID_78024130" MODIFIED="1525615298646" TEXT="GetComponentLocation helpful to get cubes positions"/>
 </node>
 </node>

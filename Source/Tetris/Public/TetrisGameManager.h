@@ -37,6 +37,12 @@ private:
 
 	APlayerController* TetrominoController = nullptr;
 	ATetromino* CurrentPawn = nullptr;
+	ATetromino* NextTetromino = nullptr;
+
+	FVector StartPosition = FVector(1730, 538, 2218);
+
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	TSubclassOf<ATetromino> Tetromino_BP;	// TODO To randomize
 
 		
 	

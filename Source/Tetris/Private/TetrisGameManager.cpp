@@ -19,6 +19,10 @@ UTetrisGameManager::UTetrisGameManager()
 void UTetrisGameManager::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Setup next Tetromino
+	
+	NextTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_BP, FVector (1730,1700,1738), FRotator(0,0,0));
 }
 
 
@@ -49,6 +53,8 @@ void UTetrisGameManager::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 		else
 		{
 			TetrominoController->UnPossess();
+			TetrominoController->Possess(NextTetromino);
+			NextTetromino->SetActorLocation(StartPosition);
 		}
 		lastInt = thisInt;
 	}
