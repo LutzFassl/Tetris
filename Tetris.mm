@@ -130,9 +130,12 @@
 <node CREATED="1525556220693" ID="ID_1921834267" MODIFIED="1525556260641" TEXT="Create a new BaseStaticMesh that will be used for all cubes--&gt; To set collision settings, material, etc for all"/>
 <node CREATED="1525556995757" ID="ID_1005553884" MODIFIED="1525557002993" TEXT="Replace input with axis values"/>
 <node CREATED="1525557161350" ID="ID_269059010" MODIFIED="1525557174966" TEXT="Pointer zu den static meshes initialisieren f&#xfc;r abfrage ob reihe voll ist"/>
-<node CREATED="1525557204097" ID="ID_1038228351" MODIFIED="1525557209863" TEXT="Tick benutzen zum bewegen"/>
+<node CREATED="1525606726307" FOLDED="true" ID="ID_952946407" MODIFIED="1525612269898" TEXT="Check coordinate most right of pawn">
+<node CREATED="1525606891862" ID="ID_1151823487" MODIFIED="1525606899058" TEXT="or just invisible collision???"/>
+</node>
 <node CREATED="1525553891714" FOLDED="true" ID="ID_1610668642" MODIFIED="1525555949218" TEXT="Done">
 <node CREATED="1525550926006" ID="ID_583457383" MODIFIED="1525550931734" TEXT="set right chivalry at beginplay"/>
+<node CREATED="1525557204097" ID="ID_1038228351" MODIFIED="1525557209863" TEXT="Tick benutzen zum bewegen"/>
 </node>
 </node>
 <node CREATED="1525551170303" ID="ID_1353526173" MODIFIED="1525551171658" POSITION="right" TEXT="Questions">

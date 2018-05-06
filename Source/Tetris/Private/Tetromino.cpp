@@ -30,11 +30,7 @@ void ATetromino::MoveLeftIfPossible()
 	// TODO stopmovement if will get out of bounds
 	// TODO think if possible to use ONE method (value +- one, using axis mapping)
 	FVector NewLocation = GetActorLocation() + FVector(0, -gridsize, 0);
-	//if (NewLocation.Y > boundaryLeft)
-		//{
-		SetActorLocation(NewLocation,true);
-		//}
-	
+	SetActorLocation(NewLocation,true);
 }
 
 // TODO move only between frames? To fix blurry movement
@@ -42,20 +38,13 @@ void ATetromino::MoveLeftIfPossible()
 void ATetromino::MoveRightIfPossible()
 {
 	FVector NewLocation = GetActorLocation() + FVector(0, gridsize, 0);
-	//if (NewLocation.Y < boundaryRight)
-		//{
-		SetActorLocation(NewLocation);
-	//}
+	SetActorLocation(NewLocation,true);
 }
 
 void ATetromino::MoveDownIfPossible()
 {
 	FVector NewLocation = GetActorLocation() + FVector(0, 0, -gridsize);
-
-	//if (NewLocation.Z > boundaryBottom)
-	//{
-		SetActorLocation(NewLocation);
-	//}
+	SetActorLocation(NewLocation, true);
 }
 
 void ATetromino::RotateCW_IfPossible()
@@ -65,6 +54,7 @@ void ATetromino::RotateCW_IfPossible()
 	// collision control
 	FRotator NewRotation = GetActorRotation() + FRotator(0, 0, 90);
 	SetActorRotation(NewRotation);
+	//TODO sweep for rotation?
 }
 
 
