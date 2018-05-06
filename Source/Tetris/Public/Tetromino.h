@@ -15,6 +15,9 @@ public:
 	// Sets default values for this pawn's properties
 	ATetromino();
 
+	UFUNCTION(BlueprintCallable)
+	void MoveDownIfPossible();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -35,8 +38,7 @@ private:
 	void MoveRightIfPossible();
 	
 	//Function exists twice here and in GameManager. To make better?
-	UFUNCTION(BlueprintCallable)
-	void MoveDownIfPossible();
+	
 
 	UFUNCTION(BlueprintCallable)
 	void RotateCW_IfPossible();
@@ -54,6 +56,10 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	int32 boundaryBottom = 0;
+
+	bool ValidateNewLocationForEachCube(FVector RootOfTetromino);
 	
 	
 };
+
+

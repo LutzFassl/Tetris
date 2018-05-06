@@ -6,6 +6,8 @@
 #include "Components/SceneComponent.h"
 #include "TetrisGameManager.generated.h"
 
+class ATetromino;
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TETRIS_API UTetrisGameManager : public USceneComponent
@@ -35,7 +37,7 @@ private:
 	int32 lastInt = 0;
 
 	APlayerController* TetrominoController = nullptr;
-	APawn* CurrentPawn = nullptr;
+	ATetromino* CurrentPawn = nullptr;
 
 		
 	

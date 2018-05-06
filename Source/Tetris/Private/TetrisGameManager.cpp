@@ -1,6 +1,7 @@
 // Tetris by Lutz
 
 #include "../public/TetrisGameManager.h"
+#include "../public/Tetromino.h"
 
 
 // Sets default values for this component's properties
@@ -36,12 +37,12 @@ void UTetrisGameManager::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	{
 		// TODO possessed pawn can be find only on PossessedPawnChange and dont need to be checked every tick
 		TetrominoController = GetWorld()->GetFirstPlayerController();
-		CurrentPawn = TetrominoController->GetPawn();
+		CurrentPawn = Cast<ATetromino>(TetrominoController->GetPawn());
+		
 
 		if (!ensure(TetrominoController) || (!ensure(CurrentPawn))) { return; }
 		//UE_LOG(LogTemp, Warning, TEXT("ControllerName: %s, PawnName: %s"), *TetrominoController->GetName(), *CurrentPawn->GetName());
-		MovePawnDownIfPossible();
-		
+		CurrentPawn->MoveDownIfPossible();
 		lastInt = thisInt;
 	}
 }

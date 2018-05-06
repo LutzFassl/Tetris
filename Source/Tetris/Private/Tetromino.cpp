@@ -27,34 +27,71 @@ void ATetromino::Tick(float DeltaTime)
 
 void ATetromino::MoveLeftIfPossible()
 {	// TODO Introduce speed, atm not possible to hold arrow
-	// TODO stopmovement if will get out of bounds
 	// TODO think if possible to use ONE method (value +- one, using axis mapping)
-	FVector NewLocation = GetActorLocation() + FVector(0, -gridsize, 0);
-	SetActorLocation(NewLocation,true);
+	FVector Translation = FVector(0, -gridsize, 0);
+	FVector NewLocation = GetActorLocation() + Translation;
+	
+	if (ValidateNewLocationForEachCube(Translation))
+	{
+		SetActorLocation(NewLocation);
+	}
 }
 
 // TODO move only between frames? To fix blurry movement
 
 void ATetromino::MoveRightIfPossible()
 {
-	FVector NewLocation = GetActorLocation() + FVector(0, gridsize, 0);
-	SetActorLocation(NewLocation,true);
+	FVector Translation = FVector(0, gridsize, 0);
+	FVector NewLocation = GetActorLocation() + Translation;
+	
+	if (ValidateNewLocationForEachCube(Translation))
+	{
+		SetActorLocation(NewLocation);
+	}
 }
 
 void ATetromino::MoveDownIfPossible()
 {
-	FVector NewLocation = GetActorLocation() + FVector(0, 0, -gridsize);
-	SetActorLocation(NewLocation, true);
+	FVector Translation = FVector(0, 0, -gridsize);
+	FVector NewLocation = GetActorLocation() + Translation;
+
+	if (ValidateNewLocationForEachCube(Translation))
+	{
+		SetActorLocation(NewLocation);
+	}
+	
+}
+
+bool ATetromino::ValidateNewLocationForEachCube(FVector NewLocOfRootOfTetromino)
+{
+	bool NewPosIsOk = true;
+	// Get Array of Cubes
+	TArray<UStaticMeshComponent*> Cubes;
+	GetComponents<UStaticMeshComponent>(Cubes);
+
+	// Loop through cubes to check if new Location is within boundaries
+	for (int y = 0; y < Cubes.Num(); y++)
+	{
+		UStaticMeshComponent* thisCube = Cast<UStaticMeshComponent>(Cubes[y]);
+		FVector CubeLocation = thisCube->GetComponentLocation();
+		FVector NewCubeLocation = CubeLocation + NewLocOfRootOfTetromino;
+		//UE_LOG(LogTemp, Warning, TEXT("%dY = %f, %dZ = %f"), y, CubeLocation.Y, y, CubeLocation.Z);
+		//UE_LOG(LogTemp, Warning, TEXT("Vector: %s"), *NewLocOfRootOfTetromino.ToString());
+
+		if (NewCubeLocation.Y < boundaryLeft || NewCubeLocation.Y > boundaryRight) { NewPosIsOk = false; }
+		if (NewCubeLocation.Z < boundaryBottom) { NewPosIsOk = false; }
+		//UE_LOG(LogTemp, Warning, TEXT("NewY = %f, NewZ = %f"), *thisCube->GetName(), *MeshLocation.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("NewY = %f, NewZ = %f"), NewCubeLocation.Y, NewCubeLocation.Z);
+	}
+	return NewPosIsOk;
 }
 
 void ATetromino::RotateCW_IfPossible()
 {
-	// TODO stopmovement if will get out of bounds
+	// push away from left/right boundary to perform rotation if too close to boundary, but only if not colliding with other tetromino
 	// TODO think if possible to use ONE method (value +- one, using axis mapping)
-	// collision control
 	FRotator NewRotation = GetActorRotation() + FRotator(0, 0, 90);
 	SetActorRotation(NewRotation);
-	//TODO sweep for rotation?
 }
 
 

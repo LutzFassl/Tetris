@@ -133,6 +133,9 @@
 <node CREATED="1525606726307" FOLDED="true" ID="ID_952946407" MODIFIED="1525612269898" TEXT="Check coordinate most right of pawn">
 <node CREATED="1525606891862" ID="ID_1151823487" MODIFIED="1525606899058" TEXT="or just invisible collision???"/>
 </node>
+<node CREATED="1525612322817" ID="ID_110961700" MODIFIED="1525612356054" TEXT="invisible box around tetromino">
+<node CREATED="1525612333823" ID="ID_1756955006" MODIFIED="1525612378043" TEXT="if collision of invisible box -&gt; dont to"/>
+</node>
 <node CREATED="1525553891714" FOLDED="true" ID="ID_1610668642" MODIFIED="1525555949218" TEXT="Done">
 <node CREATED="1525550926006" ID="ID_583457383" MODIFIED="1525550931734" TEXT="set right chivalry at beginplay"/>
 <node CREATED="1525557204097" ID="ID_1038228351" MODIFIED="1525557209863" TEXT="Tick benutzen zum bewegen"/>
@@ -148,10 +151,11 @@
 </node>
 </node>
 </node>
-<node CREATED="1525545218488" ID="ID_1477333266" MODIFIED="1525545220262" POSITION="right" TEXT="Notes">
+<node CREATED="1525545218488" ID="ID_1477333266" MODIFIED="1525615286624" POSITION="right" TEXT="Notes/Ideas">
 <node CREATED="1525552838735" ID="ID_382977929" MODIFIED="1525552846809" TEXT="NoCollision gew&#xe4;hlt bei static meshes">
 <node CREATED="1525552846810" ID="ID_1558819538" MODIFIED="1525552854061" TEXT="Funktionioert overlap event trotzdem?"/>
 </node>
+<node CREATED="1525615287697" ID="ID_78024130" MODIFIED="1525615298646" TEXT="GetComponentLocation helpful to get cubes positions"/>
 </node>
 </node>
 </map>
