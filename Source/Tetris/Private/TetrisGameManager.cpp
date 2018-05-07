@@ -19,10 +19,46 @@ UTetrisGameManager::UTetrisGameManager()
 void UTetrisGameManager::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// Setup next Tetromino
 	
-	NextTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_BP, FVector (1730,1700,1738), FRotator(0,0,0));
+	TetrominoController = GetWorld()->GetFirstPlayerController();
+
+	// Setup First Tetromino
+	SpawnThisTetromino();
+	TetrominoController->Possess(ThisTetromino);
+	
+	
+	// Setup next Tetromino
+	SpawnNextTetromino();
+}
+
+void UTetrisGameManager::SpawnThisTetromino()
+{
+	int32 Tetromino_Type = FMath::RandRange(1, 7);
+	switch (Tetromino_Type)
+	{
+	case 1: ThisTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_1, StartPosition, FRotator(0, 0, 0));
+	case 2: ThisTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_2, StartPosition, FRotator(0, 0, 0));
+	case 3: ThisTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_3, StartPosition, FRotator(0, 0, 0));
+	case 4: ThisTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_4, StartPosition, FRotator(0, 0, 0));
+	case 5: ThisTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_5, StartPosition, FRotator(0, 0, 0));
+	case 6: ThisTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_6, StartPosition, FRotator(0, 0, 0));
+	case 7: ThisTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_7, StartPosition, FRotator(0, 0, 0));
+	}
+}
+
+void UTetrisGameManager::SpawnNextTetromino()
+{
+	int32 Tetromino_Type = FMath::RandRange(1, 7);
+	switch (Tetromino_Type)
+	{
+	case 1: NextTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_1, PreviewPosition, FRotator(0, 0, 0));
+	case 2: NextTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_2, PreviewPosition, FRotator(0, 0, 0));
+	case 3: NextTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_3, PreviewPosition, FRotator(0, 0, 0));
+	case 4: NextTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_4, PreviewPosition, FRotator(0, 0, 0));
+	case 5: NextTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_5, PreviewPosition, FRotator(0, 0, 0));
+	case 6: NextTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_6, PreviewPosition, FRotator(0, 0, 0));
+	case 7: NextTetromino = GetWorld()->SpawnActor<ATetromino>(Tetromino_7, PreviewPosition, FRotator(0, 0, 0));
+	}
 }
 
 
@@ -40,10 +76,8 @@ void UTetrisGameManager::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	if (thisInt > lastInt)
 	{
 		// TODO possessed pawn can be find only on PossessedPawnChange and dont need to be checked every tick
-		TetrominoController = GetWorld()->GetFirstPlayerController();
 		CurrentPawn = Cast<ATetromino>(TetrominoController->GetPawn());
 		
-
 		if (!ensure(TetrominoController) || (!ensure(CurrentPawn))) { return; }
 		//UE_LOG(LogTemp, Warning, TEXT("ControllerName: %s, PawnName: %s"), *TetrominoController->GetName(), *CurrentPawn->GetName());
 		if (CurrentPawn->MoveDownIfPossible())
