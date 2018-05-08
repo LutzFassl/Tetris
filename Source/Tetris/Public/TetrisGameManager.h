@@ -51,7 +51,6 @@ private:
 	FVector StartPosition = FVector(1730, 538, 2218);
 	FVector PreviewPosition = FVector (1730, 1700, 1738);
 
-
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<ATetromino> Tetromino_1;
 	
