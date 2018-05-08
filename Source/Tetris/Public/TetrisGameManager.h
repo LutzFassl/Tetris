@@ -43,7 +43,7 @@ private:
 
 	// VARIABLES
 	UPROPERTY(EditAnywhere)
-	float interval = 1.f;
+	float interval = 0.5f;
 
 	// To calculate custom "tick" or "interval" within tick every frame
 	int32 lastInt = 0;

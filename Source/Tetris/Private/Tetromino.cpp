@@ -1,6 +1,7 @@
 // Tetris by Lutz
 
 #include "../public/Tetromino.h"
+#include "DrawDebugHelpers.h"
 
 
 // Sets default values
@@ -22,6 +23,8 @@ void ATetromino::BeginPlay()
 void ATetromino::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	
 
 }
 
@@ -67,7 +70,7 @@ bool ATetromino::MoveDownIfPossible()
 
 	if (ValidateNewLocationForEachCube(Translation))
 	{
-		SetActorLocation(NewLocation);
+		//SetActorLocation(NewLocation);
 		return true;
 	}
 	else
@@ -76,7 +79,7 @@ bool ATetromino::MoveDownIfPossible()
 	}
 	
 }
-
+// TODO umbauen auf Linetracing / ray casting instead of Y / Z position comparing
 bool ATetromino::ValidateNewLocationForEachCube(FVector NewLocOfRootOfTetromino)
 {
 	bool NewPosIsOk = true;
@@ -93,6 +96,12 @@ bool ATetromino::ValidateNewLocationForEachCube(FVector NewLocOfRootOfTetromino)
 		//UE_LOG(LogTemp, Warning, TEXT("%dY = %f, %dZ = %f"), y, CubeLocation.Y, y, CubeLocation.Z);
 		//UE_LOG(LogTemp, Warning, TEXT("Vector: %s"), *NewLocOfRootOfTetromino.ToString());
 
+		// Check for collision with other Tetrominos
+		CheckForSurroundingBodies(CubeLocation);
+
+		// TODO distinguish between 1) invalid new position due to side collision (acceptable) and 2) invalid new position due to bottom collision -> Depossess via GameManager
+
+		// Check if will be out of Bounds
 		if (NewCubeLocation.Y < boundaryLeft || NewCubeLocation.Y > boundaryRight) { NewPosIsOk = false; }
 		if (NewCubeLocation.Z < boundaryBottom) { NewPosIsOk = false; }
 		//UE_LOG(LogTemp, Warning, TEXT("NewY = %f, NewZ = %f"), *thisCube->GetName(), *MeshLocation.ToString());
@@ -109,13 +118,72 @@ void ATetromino::RotateCW_IfPossible()
 	SetActorRotation(NewRotation);
 }
 
-
-
-
 // Called to bind functionality to input
 void ATetromino::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+const FHitResult ATetromino::CheckForSurroundingBodies(FVector CubeLocation)
+{
+	FVector LeftOfCube = CubeLocation + FVector(0, -gridsize, 0);
+	FVector RightOfCube = CubeLocation + FVector(0, gridsize, 0);
+	FVector BelowOfCube = CubeLocation + FVector(0, 0, -gridsize);
+
+	///// Draw a red trace in the world to visualize
+	//DrawDebugLine(
+	//	GetWorld(),
+	//	CubeLocation, //FVector(1500, 0, 100), //PlayerViewPointLocation,
+	//	CubeLocation + FVector(0, gridsize,0),
+	//	FColor(255, 0, 255),
+	//	true,
+	//	0.5f,
+	//	0.f,
+	//	10.f);
+
+	//DrawDebugLine(
+	//	GetWorld(),
+	//	CubeLocation, //FVector(1500, 0, 100), //PlayerViewPointLocation,
+	//	CubeLocation + FVector(0, -gridsize, 0),
+	//	FColor(255, 0, 255),
+	//	true,
+	//	0.5f,
+	//	0.f,
+	//	10.f);
+
+	//DrawDebugLine(
+	//	GetWorld(),
+	//	CubeLocation, //FVector(1500, 0, 100), //PlayerViewPointLocation,
+	//	CubeLocation + FVector(0, 0, -gridsize),
+	//	FColor(255, 0, 255),
+	//	true,
+	//	0.5f,
+	//	0.f,
+	//	10.f);
+
+	//GetWorld()->GetFirstPlayerController()->SetPause(true);
+
+	///// Setup query parameters
+	//FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());		// change false to true if want to check with complex model of objects, ignore ourselves because beam starts from center of pawn and would hit our pawn first if not ignored
+
+	//																				/// Line-Trace Ray-cast out to reach distance
+	FHitResult HitResult;
+	//GetWorld()->LineTraceSingleByObjectType(
+	//	OUT HitResult,
+	//	GetReachLineStart(),
+	//	GetReachLineEnd(),
+	//	FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+	//	TraceParameters
+	//);
+
+	///// See what we hit
+	//AActor* ActorHit = HitResult.GetActor();
+	//if (ActorHit)		// prevent errors
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("We have hit the: %s"), *ActorHit->GetName());
+	//}
+
+	return HitResult;
 }
 

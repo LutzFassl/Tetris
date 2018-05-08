@@ -29,6 +29,8 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	const FHitResult CheckForSurroundingBodies(FVector CubeLocation);
+
 	UFUNCTION(BlueprintCallable)
 	bool MoveLeftIfPossible();
 
