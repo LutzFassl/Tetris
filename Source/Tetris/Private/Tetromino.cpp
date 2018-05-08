@@ -79,7 +79,7 @@ bool ATetromino::MoveDownIfPossible()
 	}
 	
 }
-// TODO umbauen auf Linetracing / ray casting instead of Y / Z position comparing
+
 bool ATetromino::ValidateNewLocationForEachCube(FVector NewLocOfRootOfTetromino)
 {
 	bool NewPosIsOk = true;
@@ -98,16 +98,13 @@ bool ATetromino::ValidateNewLocationForEachCube(FVector NewLocOfRootOfTetromino)
 
 		// Check for collision with other Tetrominos
 		
-		auto HitResult = CheckForSurroundingBodies(CubeLocation); 
-		auto ComponentHit = HitResult.GetComponent();		// select GetComponent because returns type UPrimitive... what GrabComponent is asking for
-		auto ActorHit = HitResult.GetActor();
+		bool IsSurrounded = HasSurroundingTetrominos(CubeLocation);
 
-		if (ComponentHit) {UE_LOG(LogTemp, Warning, TEXT("ComponentHit = %s"), *ComponentHit->GetName());}
-		if (ActorHit) { UE_LOG(LogTemp, Warning, TEXT("ActorHit = %s"), *ActorHit->GetName()); }
+
 
 		// TODO distinguish between 1) invalid new position due to side collision (acceptable) and 2) invalid new position due to bottom collision -> Depossess via GameManager
 
-		// Check if will be out of Bounds
+		// Check if will be out of Bounds, // TODO umbauen auf Linetracing / ray casting instead of Y / Z position comparing
 		if (NewCubeLocation.Y < boundaryLeft || NewCubeLocation.Y > boundaryRight) { NewPosIsOk = false; }
 		if (NewCubeLocation.Z < boundaryBottom) { NewPosIsOk = false; }
 		//UE_LOG(LogTemp, Warning, TEXT("NewY = %f, NewZ = %f"), *thisCube->GetName(), *MeshLocation.ToString());
@@ -131,11 +128,61 @@ void ATetromino::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 }
 
-const FHitResult ATetromino::CheckForSurroundingBodies(FVector CubeLocation)
+//TODO eventuell ENum Right, Down, Left und die drei in eine Funktion packen
+bool ATetromino::CubeCanGoRight(FVector CubeLocation)
+{
+	FVector RightOfCube = CubeLocation + FVector(0, gridsize, 0);
+	auto HitResult = CheckForSurroundingBody(CubeLocation, RightOfCube);
+	auto ComponentHit = HitResult.GetComponent();
+	auto ActorHit = HitResult.GetActor();
+
+	if (ActorHit)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+bool ATetromino::CubeCanGoLeft(FVector CubeLocation)
 {
 	FVector LeftOfCube = CubeLocation + FVector(0, -gridsize, 0);
-	FVector RightOfCube = CubeLocation + FVector(0, gridsize, 0);
-	FVector BelowOfCube = CubeLocation + FVector(0, 0, -gridsize);
+	auto HitResult = CheckForSurroundingBody(CubeLocation, LeftOfCube);
+	auto ComponentHit = HitResult.GetComponent();
+	auto ActorHit = HitResult.GetActor();
+
+	if (ActorHit)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+bool ATetromino::CubeCanGoDown(FVector CubeLocation)
+
+	FVector BelowCube = CubeLocation + FVector(0, 0, -gridsize);
+	auto HitResult = CheckForSurroundingBody(CubeLocation, BelowCube);
+	auto ComponentHit = HitResult.GetComponent();
+	auto ActorHit = HitResult.GetActor();
+
+	if (ActorHit)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+const FHitResult ATetromino::CheckForSurroundingBody(FVector CubeLocation, FVector SurroundLocation)
+{
+
 
 	//UE_LOG(LogTemp, Warning, TEXT("owner of Tetromino.Cpp = %s"), *GetOwner()->GetName());
 
@@ -181,7 +228,7 @@ const FHitResult ATetromino::CheckForSurroundingBodies(FVector CubeLocation)
 	GetWorld()->LineTraceSingleByObjectType(
 		OUT HitResult,
 		CubeLocation,
-		RightOfCube,
+		SurroundLocation,
 		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
 		TraceParameters
 	);

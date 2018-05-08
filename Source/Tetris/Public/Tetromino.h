@@ -15,6 +15,7 @@ public:
 	// Sets default values for this pawn's properties
 	ATetromino();
 
+	// Public for GameManager
 	UFUNCTION(BlueprintCallable)
 	bool MoveDownIfPossible();
 
@@ -23,31 +24,34 @@ protected:
 	virtual void BeginPlay() override;
 
 private:	
-	// Called every frame
+	// Default Routines
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	const FHitResult CheckForSurroundingBodies(FVector CubeLocation);
+	// Collision Functions
+	bool CubeCanGoRight(FVector CubeLocation);
+	bool CubeCanGoLeft(FVector CubeLocation);
+	bool CubeCanGoDown(FVector CubeLocation);
+	const FHitResult CheckForSurroundingBody(FVector CubeLocation, FVector SurroundLocation);
+	bool ValidateNewLocationForEachCube(FVector RootOfTetromino);
 
+	// BP Callables so Input Keys can access directly
 	UFUNCTION(BlueprintCallable)
 	bool MoveLeftIfPossible();
 
 	UFUNCTION(BlueprintCallable)
 	bool MoveRightIfPossible();
-	
-	//Function exists twice here and in GameManager. To make better?
-	
 
 	UFUNCTION(BlueprintCallable)
 	void RotateCW_IfPossible();
 
+
+	// VARIABLES
 	//TODO delete and get from GameManager
 	UPROPERTY(EditAnywhere)
 	int32 gridsize = 120;
 
-	// TODO Maybe read those from the gameBaseMode or GameManager
+	// TODO DISREGARD, will not be necessary after ray trace solution with invisible walls, --> OLD, IGNORE: check Maybe read those from the gameBaseMode or GameManager
 	UPROPERTY(EditAnywhere)
 	int32 boundaryLeft = 0;
 
@@ -56,8 +60,6 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	int32 boundaryBottom = 0;
-
-	bool ValidateNewLocationForEachCube(FVector RootOfTetromino);
 };
 
 
