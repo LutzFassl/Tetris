@@ -6,6 +6,16 @@
 #include "GameFramework/Pawn.h"
 #include "Tetromino.generated.h"
 
+
+UENUM()		//"BlueprintType" is essential to include
+enum class EDirection : uint8
+{
+	Left,
+	Right,
+	Down,
+};
+
+
 UCLASS()
 class TETRIS_API ATetromino : public APawn
 {
@@ -17,7 +27,7 @@ public:
 
 	// Public for GameManager
 	UFUNCTION(BlueprintCallable)
-	bool MoveDownIfPossible();
+	bool MoveIfPossible(EDirection Direction);
 
 protected:
 	// Called when the game starts or when spawned
@@ -29,24 +39,16 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	// Collision Functions
-	bool CubeCanGoRight(FVector CubeLocation);
-	bool CubeCanGoLeft(FVector CubeLocation);
-	bool CubeCanGoDown(FVector CubeLocation);
+	bool CubeCanGoThisDirection(FVector CubeLocation, EDirection Direction);
 	const FHitResult CheckForSurroundingBody(FVector CubeLocation, FVector SurroundLocation);
-	bool ValidateNewLocationForEachCube(FVector RootOfTetromino);
-
-	// BP Callables so Input Keys can access directly
-	UFUNCTION(BlueprintCallable)
-	bool MoveLeftIfPossible();
-
-	UFUNCTION(BlueprintCallable)
-	bool MoveRightIfPossible();
+	bool IsPredictedLocationForEachCubeOK(EDirection Direction);
 
 	UFUNCTION(BlueprintCallable)
 	void RotateCW_IfPossible();
 
-
 	// VARIABLES
+	EDirection Direction;
+
 	//TODO delete and get from GameManager
 	UPROPERTY(EditAnywhere)
 	int32 gridsize = 120;

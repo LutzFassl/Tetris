@@ -81,20 +81,20 @@ void UTetrisGameManager::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 		CurrentPawn = Cast<ATetromino>(TetrominoController->GetPawn());
 		
 		if (!ensure(TetrominoController) || (!ensure(CurrentPawn))) { return; }
-		//UE_LOG(LogTemp, Warning, TEXT("ControllerName: %s, PawnName: %s"), *TetrominoController->GetName(), *CurrentPawn->GetName());
-		//if (CurrentPawn->MoveDownIfPossible())
-		//{
+		UE_LOG(LogTemp, Warning, TEXT("ControllerName: %s, PawnName: %s"), *TetrominoController->GetName(), *CurrentPawn->GetName());
+		if (CurrentPawn->MoveIfPossible(EDirection::Down))
+		{
 
-		//}
-		//else
-		//{
-		//	TetrominoController->UnPossess();
-		//	ThisTetromino = NextTetromino;
-		//	ThisTetromino->SetActorLocation(StartPosition);
-		//	SpawnNextTetromino();
-		//	TetrominoController->Possess(ThisTetromino);
-		//	
-		//}
+		}
+		else
+		{
+			TetrominoController->UnPossess();
+			ThisTetromino = NextTetromino;
+			ThisTetromino->SetActorLocation(StartPosition);
+			SpawnNextTetromino();
+			TetrominoController->Possess(ThisTetromino);
+			
+		}
 		lastInt = thisInt;
 	}
 }
