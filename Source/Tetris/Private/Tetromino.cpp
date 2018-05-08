@@ -40,7 +40,7 @@ bool ATetromino::MoveIfPossible(EDirection Direction)
 	
 	FVector NewLocation = GetActorLocation() + Translation;
 	
-	if (IsPredictedLocationForEachCubeOK(EDirection::Left))
+	if (IsPredictedLocationForEachCubeOK(Direction))
 	{
 		SetActorLocation(NewLocation);
 		return true;

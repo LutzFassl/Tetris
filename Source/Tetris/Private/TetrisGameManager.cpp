@@ -81,7 +81,7 @@ void UTetrisGameManager::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 		CurrentPawn = Cast<ATetromino>(TetrominoController->GetPawn());
 		
 		if (!ensure(TetrominoController) || (!ensure(CurrentPawn))) { return; }
-		UE_LOG(LogTemp, Warning, TEXT("ControllerName: %s, PawnName: %s"), *TetrominoController->GetName(), *CurrentPawn->GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("ControllerName: %s, PawnName: %s"), *TetrominoController->GetName(), *CurrentPawn->GetName());
 		if (CurrentPawn->MoveIfPossible(EDirection::Down))
 		{
 
