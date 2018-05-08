@@ -70,7 +70,7 @@ bool ATetromino::MoveDownIfPossible()
 
 	if (ValidateNewLocationForEachCube(Translation))
 	{
-		//SetActorLocation(NewLocation);
+		SetActorLocation(NewLocation);
 		return true;
 	}
 	else
@@ -97,7 +97,13 @@ bool ATetromino::ValidateNewLocationForEachCube(FVector NewLocOfRootOfTetromino)
 		//UE_LOG(LogTemp, Warning, TEXT("Vector: %s"), *NewLocOfRootOfTetromino.ToString());
 
 		// Check for collision with other Tetrominos
-		CheckForSurroundingBodies(CubeLocation);
+		
+		auto HitResult = CheckForSurroundingBodies(CubeLocation); 
+		auto ComponentHit = HitResult.GetComponent();		// select GetComponent because returns type UPrimitive... what GrabComponent is asking for
+		auto ActorHit = HitResult.GetActor();
+
+		if (ComponentHit) {UE_LOG(LogTemp, Warning, TEXT("ComponentHit = %s"), *ComponentHit->GetName());}
+		if (ActorHit) { UE_LOG(LogTemp, Warning, TEXT("ActorHit = %s"), *ActorHit->GetName()); }
 
 		// TODO distinguish between 1) invalid new position due to side collision (acceptable) and 2) invalid new position due to bottom collision -> Depossess via GameManager
 
@@ -131,11 +137,13 @@ const FHitResult ATetromino::CheckForSurroundingBodies(FVector CubeLocation)
 	FVector RightOfCube = CubeLocation + FVector(0, gridsize, 0);
 	FVector BelowOfCube = CubeLocation + FVector(0, 0, -gridsize);
 
-	///// Draw a red trace in the world to visualize
+	//UE_LOG(LogTemp, Warning, TEXT("owner of Tetromino.Cpp = %s"), *GetOwner()->GetName());
+
+	/////// Draw a red trace in the world to visualize
 	//DrawDebugLine(
 	//	GetWorld(),
 	//	CubeLocation, //FVector(1500, 0, 100), //PlayerViewPointLocation,
-	//	CubeLocation + FVector(0, gridsize,0),
+	//	RightOfCube,
 	//	FColor(255, 0, 255),
 	//	true,
 	//	0.5f,
@@ -165,17 +173,18 @@ const FHitResult ATetromino::CheckForSurroundingBodies(FVector CubeLocation)
 	//GetWorld()->GetFirstPlayerController()->SetPause(true);
 
 	///// Setup query parameters
-	//FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());		// change false to true if want to check with complex model of objects, ignore ourselves because beam starts from center of pawn and would hit our pawn first if not ignored
+
+	FCollisionQueryParams TraceParameters(FName(TEXT("")), false, this);	 // rference to self possible? how? or by default ignores self?	// change false to true if want to check with complex model of objects, ignore ourselves because beam starts from center of pawn and would hit our pawn first if not ignored
 
 	//																				/// Line-Trace Ray-cast out to reach distance
 	FHitResult HitResult;
-	//GetWorld()->LineTraceSingleByObjectType(
-	//	OUT HitResult,
-	//	GetReachLineStart(),
-	//	GetReachLineEnd(),
-	//	FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
-	//	TraceParameters
-	//);
+	GetWorld()->LineTraceSingleByObjectType(
+		OUT HitResult,
+		CubeLocation,
+		RightOfCube,
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+		TraceParameters
+	);
 
 	///// See what we hit
 	//AActor* ActorHit = HitResult.GetActor();
