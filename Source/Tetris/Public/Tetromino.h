@@ -26,7 +26,6 @@ public:
 	ATetromino();
 
 	// Public for GameManager
-	UFUNCTION(BlueprintCallable)
 	bool MoveIfPossible(EDirection Direction);
 
 protected:
@@ -36,6 +35,8 @@ protected:
 private:	
 	// Default Routines
 	virtual void Tick(float DeltaTime) override;
+	UFUNCTION(BlueprintCallable)
+	void MoveAtSensibleTickRate(EDirection Direction);
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	// Collision Functions
@@ -48,6 +49,12 @@ private:
 
 	// VARIABLES
 	EDirection Direction;
+	TArray<float> LastTimeMoved = { -1, -1, -1 }; // Remember when used last time to slow down the movement speed by user,  0 = left, 1 = right, 2 = down
+	
+	UPROPERTY(EditAnywhere)
+	float UserMoveSpeed = 10;
+	
+	float MoveDelay=0.1;		//Inverted UserMoveSpeed will be calculated at BeginPlay because UserMoveSpeed is easier to comprehend
 
 	//TODO delete and get from GameManager
 	UPROPERTY(EditAnywhere)

@@ -16,6 +16,7 @@ ATetromino::ATetromino()
 void ATetromino::BeginPlay()
 {
 	Super::BeginPlay();
+	MoveDelay = 1 / UserMoveSpeed;
 	
 }
 
@@ -25,9 +26,26 @@ void ATetromino::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void ATetromino::MoveAtSensibleTickRate(EDirection Direction)
+{
+	int32 arrayPos;
+
+	// Convert ENum to Array Position
+	if (Direction == EDirection::Left) { arrayPos = 0; }
+	if (Direction == EDirection::Right) { arrayPos = 1; }
+	if (Direction == EDirection::Down) { arrayPos = 2; }
+
+	// Apply time Penalty of next movement to reduce speed
+	if (GetWorld()->GetTimeSeconds() - LastTimeMoved[arrayPos] > MoveDelay)
+	{
+		MoveIfPossible(Direction);
+		LastTimeMoved[arrayPos] = GetWorld()->GetTimeSeconds();
+	}
+	return;
+}
+
 bool ATetromino::MoveIfPossible(EDirection Direction)
-{	// TODO Introduce speed, atm not possible to hold arrow
-	// TODO use ONE method for left&right, using Axis value (value +- one, using axis mapping)
+{
 	FVector Translation;
 
 	// Choose correct target vector

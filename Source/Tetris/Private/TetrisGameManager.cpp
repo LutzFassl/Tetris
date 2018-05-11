@@ -55,10 +55,13 @@ void UTetrisGameManager::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	//UE_LOG(LogTemp, Warning, TEXT("I'm the triggervolume: %s"), *TriggerVolumes[0]->GetName());
+	
+
 	// Create & Calculate Integers for custom (slowed) ticking
 	float Time = GetWorld()->GetTimeSeconds();
 	int32 thisInt = FMath::DivideAndRoundDown(Time, interval);
-	//UE_LOG(LogTemp, Warning, TEXT("lastInt: %d, thisInt: %d"), lastInt, thisInt);
+	
 
 	//Actual Tick
 	if (thisInt > lastInt)

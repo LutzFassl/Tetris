@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
+#include "Engine/TriggerVolume.h"
 #include "TetrisGameManager.generated.h"
 
 class ATetromino;
@@ -25,7 +26,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	
+
 
 	
 
@@ -54,4 +55,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TArray<TSubclassOf<ATetromino>> Tetrominos;
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+		TArray<TSubclassOf<ATriggerVolume>> TriggerVolumes;		// TODO shouldnt that be pointers? Compare to building escape
+													//TArray<ATriggerVolume*> TriggerVolumes;
+	
 };
