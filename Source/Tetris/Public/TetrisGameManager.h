@@ -32,6 +32,7 @@ protected:
 private:	
 	// FUNCTIONS
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void MoveOnToNextTetromino();
 	void SpawnThisTetromino();
 	void SpawnNextTetromino();
 
@@ -52,23 +53,5 @@ private:
 	FVector PreviewPosition = FVector (1730, 1700, 1738);
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	TSubclassOf<ATetromino> Tetromino_1;
-	
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	TSubclassOf<ATetromino> Tetromino_2;
-
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	TSubclassOf<ATetromino> Tetromino_3;
-
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	TSubclassOf<ATetromino> Tetromino_4;
-
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	TSubclassOf<ATetromino> Tetromino_5;
-
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	TSubclassOf<ATetromino> Tetromino_6;
-
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	TSubclassOf<ATetromino> Tetromino_7;
+	TArray<TSubclassOf<ATetromino>> Tetrominos;
 };
