@@ -27,32 +27,64 @@ void ATetrisCollisionBoxes::BeginPlay()
 void ATetrisCollisionBoxes::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	UBoxComponent* MyTriggerVolume = FindComponentByClass<UBoxComponent>();		// Specify which of the 20 correct boxes. Man könnte alternativ die auch einfach nach höhe sortieren
-	if (MyTriggerVolume) 
+	TArray<UBoxComponent*> BoxArray = GetComponentsByClass(UBoxComponent::StaticClass());
+	TArray<AActor*> OverlappingActors;
+
+	// Loop through all Collision Boxes
+	for (int32 i = 0; i < BoxArray.Num(); i++)
 	{
-		TArray<AActor*> OverlappingActors;
-		//UE_LOG(LogTemp, Warning, TEXT("Vol Name: %s"), *MyTriggerVolume->GetName());
-		MyTriggerVolume->GetOverlappingActors(OUT OverlappingActors);
+		//UE_LOG(LogTemp, Warning, TEXT("I am Box: %s"), *BoxArray[i]->GetName());
 
-		
-		UE_LOG(LogTemp, Warning, TEXT("Amount of Elements: %d"), OverlappingActors.Num());
 
-		// Destroy all. Should probably be done by GameManager
-		if (OverlappingActors.Num() == 10)
+		// TODO start to loop through them from top to bottom
+		// Pointer Protection
+		if (BoxArray[i])
 		{
-			for (const auto& i_actor : OverlappingActors)
+			OverlappingActors.Empty();											// clear overlapping array
+			BoxArray[i]->GetOverlappingActors(OUT OverlappingActors);		// fill overlapping actor array
+			if (OverlappingActors.Num() > 0)
 			{
-				i_actor->Destroy();
-				//UE_LOG(LogTemp, Warning, TEXT("Overlapping with: %s"), *i_actor->GetName());
-				//UPrimitiveComponent* thiscomp =  no definition needed
-				//TotalMass += i_actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();		// += addiert drauf
-				//UE_LOG(LogTemp, Warning, TEXT("This is actor: %s"), **FString::SanitizeFloat(TotalMass));
-			}
+				UE_LOG(LogTemp, Warning, TEXT("%s has overlapping Actors: %d"), *BoxArray[i]->GetName(), OverlappingActors.Num());
 
-			// Move all components one row down TODO: should only be all components above it! z.B. Move all overlapping actors if z value is more than 50 more than current ro
-			FindAllCubesAboveAndMoveThemDown(0.f);
+						for (const auto& i_actor : OverlappingActors)
+						{
+							
+							UE_LOG(LogTemp, Warning, TEXT("Overlapping with: %s"), *i_actor->GetName());
+							//UPrimitiveComponent* thiscomp =  no definition needed
+							//TotalMass += i_actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();		// += addiert drauf
+							//UE_LOG(LogTemp, Warning, TEXT("This is actor: %s"), **FString::SanitizeFloat(TotalMass));
+						}
+			}
 		}
 	}
+
+	
+	////UBoxComponent* MyTriggerVolume = FindComponentByClass<UBoxComponent>();		// Specify which of the 20 correct boxes. Man könnte alternativ die auch einfach nach höhe sortieren
+	//if (MyTriggerVolume) 
+	//{
+	//	TArray<AActor*> OverlappingActors;
+	//	//UE_LOG(LogTemp, Warning, TEXT("Vol Name: %s"), *MyTriggerVolume->GetName());
+	//	MyTriggerVolume->GetOverlappingActors(OUT OverlappingActors);
+
+	//	
+	//	UE_LOG(LogTemp, Warning, TEXT("Amount of Elements: %d"), OverlappingActors.Num());
+
+	//	// Destroy all. Should probably be done by GameManager
+	//	if (OverlappingActors.Num() == 10)
+	//	{
+	//		for (const auto& i_actor : OverlappingActors)
+	//		{
+	//			i_actor->Destroy();
+	//			//UE_LOG(LogTemp, Warning, TEXT("Overlapping with: %s"), *i_actor->GetName());
+	//			//UPrimitiveComponent* thiscomp =  no definition needed
+	//			//TotalMass += i_actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();		// += addiert drauf
+	//			//UE_LOG(LogTemp, Warning, TEXT("This is actor: %s"), **FString::SanitizeFloat(TotalMass));
+	//		}
+
+	//		// TODO set sensible Z value (e.g. 50 above own collision mesh pos)
+	//		FindAllCubesAboveAndMoveThemDown(0.f);
+	//	}
+	//}
 	return;
 }
 
@@ -60,6 +92,7 @@ void ATetrisCollisionBoxes::FindAllCubesAboveAndMoveThemDown(float Z_ThisRow)
 {
 	for (TActorIterator<AJustACube> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
+		// TODO only if above Z pos
 		FVector Translation = FVector(0, 0, -gridsize);
 		FVector NewLocation = ActorItr->GetActorLocation() + Translation;
 		ActorItr->SetActorLocation(NewLocation);
