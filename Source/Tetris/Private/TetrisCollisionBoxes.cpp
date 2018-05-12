@@ -31,6 +31,7 @@ void ATetrisCollisionBoxes::Tick(float DeltaTime)
 	TArray<AActor*> OverlappingActors;
 	UBoxComponent* thisbox;
 	int32 OverlappingCubeCounter;
+	FVector mypos;		// TODO this is fixes, doesnt need to be in TICK
 
 	// Loop through all Collision Boxes
 	for (int32 i = 0; i < BoxArray.Num(); i++)
@@ -42,10 +43,13 @@ void ATetrisCollisionBoxes::Tick(float DeltaTime)
 		// Pointer Protection
 		if (BoxArray[i])
 		{
+			
 			OverlappingCubeCounter = 0;
 			OverlappingActors.Empty();											// clear overlapping array
 			thisbox = Cast<UBoxComponent>(BoxArray[i]);
 			thisbox->GetOverlappingActors(OUT OverlappingActors);		// fill overlapping actor array
+			mypos = thisbox->GetComponentLocation();
+			//UE_LOG(LogTemp, Warning, TEXT("Box pos: %s"), *pos.ToString());
 			if (OverlappingActors.Num() == 10)
 			{
 				//UE_LOG(LogTemp, Warning, TEXT("%s has overlapping Actors: %d"), *BoxArray[i]->GetName(), OverlappingActors.Num());
@@ -70,7 +74,7 @@ void ATetrisCollisionBoxes::Tick(float DeltaTime)
 									i_actor->Destroy();
 								}
 							}
-							FindAllCubesAboveAndMoveThemDown(0);	//TODO correct Z value
+							FindAllCubesAboveAndMoveThemDown(mypos.Z+50);	//TODO correct Z value
 						}
 			}
 		}
@@ -110,10 +114,13 @@ void ATetrisCollisionBoxes::FindAllCubesAboveAndMoveThemDown(float Z_ThisRow)
 {
 	for (TActorIterator<AJustACube> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
-		// TODO only if above Z pos
-		FVector Translation = FVector(0, 0, -gridsize);
-		FVector NewLocation = ActorItr->GetActorLocation() + Translation;
-		ActorItr->SetActorLocation(NewLocation);
+		if (ActorItr->GetActorLocation().Z > Z_ThisRow)
+		{
+			FVector Translation = FVector(0, 0, -gridsize);
+			FVector NewLocation = ActorItr->GetActorLocation() + Translation;
+			ActorItr->SetActorLocation(NewLocation);
+		}
+		
 	}
 }
 
