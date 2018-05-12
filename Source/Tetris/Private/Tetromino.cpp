@@ -147,7 +147,6 @@ const FHitResult ATetromino::CheckForSurroundingBody(FVector CubeLocation, FVect
 		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
 		TraceParameters
 	);
-
 	return HitResult;
 }
 

@@ -86,6 +86,11 @@ void UTetrisGameManager::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 void UTetrisGameManager::MoveOnToNextTetromino()
 {
 	TetrominoController->UnPossess();
+	
+	// TODO disassemble Tetromino
+	//ReplacingCubes[0] = GetWorld()->SpawnActor<ATetromino>(Tetrominos[RandomIndex], StartPosition, FRotator(0, 0, 0));
+
+
 	ThisTetromino = NextTetromino;
 	ThisTetromino->SetActorLocation(StartPosition);
 	SpawnNextTetromino();

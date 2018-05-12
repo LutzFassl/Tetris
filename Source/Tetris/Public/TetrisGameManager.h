@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
-#include "Engine/TriggerVolume.h"
 #include "TetrisGameManager.generated.h"
 
 class ATetromino;
+class UStaticMeshActor;			// Engine / StaticMeshActor.h
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -42,6 +42,7 @@ private:
 	ATetromino* CurrentPawn = nullptr;
 	ATetromino* NextTetromino = nullptr;
 	ATetromino* ThisTetromino = nullptr;
+	TArray<UStaticMeshActor*> ReplacingCubes = { nullptr,nullptr,nullptr,nullptr };
 
 	// VARIABLES
 	UPROPERTY(EditAnywhere)
@@ -56,8 +57,6 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TArray<TSubclassOf<ATetromino>> Tetrominos;
 
-	UPROPERTY(EditAnywhere, Category = Setup)
-		TArray<TSubclassOf<ATriggerVolume>> TriggerVolumes;		// TODO shouldnt that be pointers? Compare to building escape
-													//TArray<ATriggerVolume*> TriggerVolumes;
+	
 	
 };
