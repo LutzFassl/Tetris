@@ -7,7 +7,7 @@
 #include "TetrisGameManager.generated.h"
 
 class ATetromino;
-class UStaticMeshActor;			// Engine / StaticMeshActor.h
+class AStaticMeshActor;			// Engine / StaticMeshActor.h
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -26,10 +26,6 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-
-
-	
-
 private:	
 	// FUNCTIONS
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -42,7 +38,6 @@ private:
 	ATetromino* CurrentPawn = nullptr;
 	ATetromino* NextTetromino = nullptr;
 	ATetromino* ThisTetromino = nullptr;
-	TArray<UStaticMeshActor*> ReplacingCubes = { nullptr,nullptr,nullptr,nullptr };
 
 	// VARIABLES
 	UPROPERTY(EditAnywhere)
@@ -55,8 +50,5 @@ private:
 	FVector PreviewPosition = FVector (1730, 1700, 1738);
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	TArray<TSubclassOf<ATetromino>> Tetrominos;
-
-	
-	
+	TArray<TSubclassOf<ATetromino>> Tetrominos;	
 };

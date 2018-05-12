@@ -18,6 +18,8 @@ void ATetromino::BeginPlay()
 	Super::BeginPlay();
 	MoveDelay = 1 / UserMoveSpeed;
 	
+	// Get Array of Cubes
+	GetComponents<UStaticMeshComponent>(Cubes);
 }
 
 // Called every frame
@@ -68,21 +70,44 @@ bool ATetromino::MoveIfPossible(EDirection Direction)
 		return false;
 	}
 }
+
+
+void ATetromino::Disassemble()
+{
+	UStaticMeshComponent* ReplaceCubeMesh;
+
+	// Loop through cubes position and create the replacing cubes at that position
+	for (int y = 0; y < Cubes.Num(); y++)
+	{
+		UStaticMeshComponent* thisCube = Cast<UStaticMeshComponent>(Cubes[y]);
+		
+		if (!ensure (thisCube)) { return; }
+		FVector CubeLocation = thisCube->GetComponentLocation();
+		auto thisMaterial = thisCube->GetMaterial(0);
+		if (!ensure(thisMaterial)) { return; }
+		
+		//UE_LOG(LogTemp, Warning, TEXT("Material Index: %d"), );
+		
+		ReplacingCubes[y] = GetWorld()->SpawnActor<AActor>(CubeType, CubeLocation, FRotator(0, 0, 0));		// Todo rotation necessary by any chance? most probably not
+		
+		ReplaceCubeMesh = Cast<UStaticMeshComponent>(ReplacingCubes[y]);		// color setting doesnt work. why?
+		if (!ensure(ReplaceCubeMesh)) { return; }
+		ReplaceCubeMesh->SetMaterial(0, thisMaterial);	
+	}
+	Destroy();
+}
+
+
 // TODO move only between frames? To fix blurry movement
 
 bool ATetromino::IsPredictedLocationForEachCubeOK(EDirection Direction)
 {
-	// Get Array of Cubes
-	TArray<UStaticMeshComponent*> Cubes;
-	GetComponents<UStaticMeshComponent>(Cubes);
-
 	// Loop through cubes to check if new Location is within boundaries
 	for (int y = 0; y < Cubes.Num(); y++)
 	{
 		UStaticMeshComponent* thisCube = Cast<UStaticMeshComponent>(Cubes[y]);
 		FVector CubeLocation = thisCube->GetComponentLocation();
 		if (!CubeCanGoThisDirection(CubeLocation, Direction)) { return false; }
-		// TODO distinguish between 1) invalid new position due to side collision (acceptable) and 2) invalid new position due to bottom collision -> Depossess via GameManager
 	}
 	return true; //return true if not found any false in the 4-fold loop
 }

@@ -27,13 +27,14 @@ public:
 
 	// Public for GameManager
 	bool MoveIfPossible(EDirection Direction);
+	void Disassemble();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 private:	
-	// Default Routines
+	// Routines
 	virtual void Tick(float DeltaTime) override;
 	UFUNCTION(BlueprintCallable)
 	void MoveAtSensibleTickRate(EDirection Direction);
@@ -51,6 +52,10 @@ private:
 	EDirection Direction;
 	TArray<float> LastTimeMoved = { -1, -1, -1 }; // Remember when used last time to slow down the movement speed by user,  0 = left, 1 = right, 2 = down
 	
+	// Pointers
+	TArray<UStaticMeshComponent*> Cubes;	//own cubes before disassembly
+	TArray<AActor*> ReplacingCubes = { nullptr,nullptr,nullptr,nullptr };		// or AActor
+	
 	UPROPERTY(EditAnywhere)
 	float UserMoveSpeed = 10;
 	
@@ -60,15 +65,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	int32 gridsize = 120;
 
-	// TODO DISREGARD, will not be necessary after ray trace solution with invisible walls, --> OLD, IGNORE: check Maybe read those from the gameBaseMode or GameManager
-	UPROPERTY(EditAnywhere)
-	int32 boundaryLeft = 0;
-
-	UPROPERTY(EditAnywhere)
-	int32 boundaryRight = 1196;
-
-	UPROPERTY(EditAnywhere)
-	int32 boundaryBottom = 0;
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	TSubclassOf<AActor> CubeType;
+	//TSubclassOf<UStaticMeshComponent> CubeType;
 };
 
 

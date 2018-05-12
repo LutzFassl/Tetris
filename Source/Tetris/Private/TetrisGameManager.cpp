@@ -66,12 +66,9 @@ void UTetrisGameManager::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	//Actual Tick
 	if (thisInt > lastInt)
 	{
-		// TODO possessed pawn can be find only on PossessedPawnChange and dont need to be checked every tick
-		CurrentPawn = Cast<ATetromino>(TetrominoController->GetPawn());
-		
-		if (!ensure(TetrominoController) || (!ensure(CurrentPawn))) { return; }
+		if (!ensure(TetrominoController) || (!ensure(ThisTetromino))) { return; }
 		//UE_LOG(LogTemp, Warning, TEXT("ControllerName: %s, PawnName: %s"), *TetrominoController->GetName(), *CurrentPawn->GetName());
-		if (CurrentPawn->MoveIfPossible(EDirection::Down))
+		if (ThisTetromino->MoveIfPossible(EDirection::Down))
 		{
 			// empty, is moved already in the condition
 		}
@@ -86,10 +83,7 @@ void UTetrisGameManager::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 void UTetrisGameManager::MoveOnToNextTetromino()
 {
 	TetrominoController->UnPossess();
-	
-	// TODO disassemble Tetromino
-	//ReplacingCubes[0] = GetWorld()->SpawnActor<ATetromino>(Tetrominos[RandomIndex], StartPosition, FRotator(0, 0, 0));
-
+	ThisTetromino->Disassemble();
 
 	ThisTetromino = NextTetromino;
 	ThisTetromino->SetActorLocation(StartPosition);

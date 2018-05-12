@@ -1,7 +1,8 @@
 // Tetris by Lutz
 
-#include "Components/BoxComponent.h"
 #include "TetrisCollisionBoxes.h"
+#include "Components/BoxComponent.h"
+
 
 
 // Sets default values
@@ -23,19 +24,30 @@ void ATetrisCollisionBoxes::BeginPlay()
 void ATetrisCollisionBoxes::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	UBoxComponent* MyTriggerVolume = FindComponentByClass<UBoxComponent>();
+	UBoxComponent* MyTriggerVolume = FindComponentByClass<UBoxComponent>();		// Specify which of the 20 correct boxes. Man könnte alternativ die auch einfach nach höhe sortieren
 	if (MyTriggerVolume) 
 	{
 		TArray<AActor*> OverlappingActors;
 		//UE_LOG(LogTemp, Warning, TEXT("Vol Name: %s"), *MyTriggerVolume->GetName());
 		MyTriggerVolume->GetOverlappingActors(OUT OverlappingActors);
 
-		for (const auto& i_actor : OverlappingActors)
+		
+		UE_LOG(LogTemp, Warning, TEXT("Amount of Elements: %d"), OverlappingActors.Num());
+
+		// Destroy all. Should probably be done by GameManager
+		if (OverlappingActors.Num() == 10)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Overlapping with: %s"), *i_actor->GetName());
-			//UPrimitiveComponent* thiscomp =  no definition needed
-			//TotalMass += i_actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();		// += addiert drauf
-			//UE_LOG(LogTemp, Warning, TEXT("This is actor: %s"), **FString::SanitizeFloat(TotalMass));
+			for (const auto& i_actor : OverlappingActors)
+			{
+				i_actor->Destroy();
+
+				// Move all components one row down TODO: should only be all components above it! z.B. Move all overlapping actors if z value is more than 50 more than current ro
+
+				//UE_LOG(LogTemp, Warning, TEXT("Overlapping with: %s"), *i_actor->GetName());
+				//UPrimitiveComponent* thiscomp =  no definition needed
+				//TotalMass += i_actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();		// += addiert drauf
+				//UE_LOG(LogTemp, Warning, TEXT("This is actor: %s"), **FString::SanitizeFloat(TotalMass));
+			}
 		}
 	}
 	return;
