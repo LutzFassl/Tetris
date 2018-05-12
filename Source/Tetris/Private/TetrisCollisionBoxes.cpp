@@ -27,8 +27,10 @@ void ATetrisCollisionBoxes::BeginPlay()
 void ATetrisCollisionBoxes::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	TArray<UBoxComponent*> BoxArray = GetComponentsByClass(UBoxComponent::StaticClass());
+	TArray<UActorComponent*> BoxArray = GetComponentsByClass(UBoxComponent::StaticClass());
 	TArray<AActor*> OverlappingActors;
+	UBoxComponent* thisbox;
+	int32 OverlappingCubeCounter;
 
 	// Loop through all Collision Boxes
 	for (int32 i = 0; i < BoxArray.Num(); i++)
@@ -36,23 +38,39 @@ void ATetrisCollisionBoxes::Tick(float DeltaTime)
 		//UE_LOG(LogTemp, Warning, TEXT("I am Box: %s"), *BoxArray[i]->GetName());
 
 
-		// TODO start to loop through them from top to bottom
+		// TODO start to loop through them from top row to bottom
 		// Pointer Protection
 		if (BoxArray[i])
 		{
+			OverlappingCubeCounter = 0;
 			OverlappingActors.Empty();											// clear overlapping array
-			BoxArray[i]->GetOverlappingActors(OUT OverlappingActors);		// fill overlapping actor array
-			if (OverlappingActors.Num() > 0)
+			thisbox = Cast<UBoxComponent>(BoxArray[i]);
+			thisbox->GetOverlappingActors(OUT OverlappingActors);		// fill overlapping actor array
+			if (OverlappingActors.Num() == 10)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("%s has overlapping Actors: %d"), *BoxArray[i]->GetName(), OverlappingActors.Num());
-
+				//UE_LOG(LogTemp, Warning, TEXT("%s has overlapping Actors: %d"), *BoxArray[i]->GetName(), OverlappingActors.Num());
+						// Loop through overlapping actors
 						for (const auto& i_actor : OverlappingActors)
 						{
-							
-							UE_LOG(LogTemp, Warning, TEXT("Overlapping with: %s"), *i_actor->GetName());
-							//UPrimitiveComponent* thiscomp =  no definition needed
-							//TotalMass += i_actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();		// += addiert drauf
-							//UE_LOG(LogTemp, Warning, TEXT("This is actor: %s"), **FString::SanitizeFloat(TotalMass));
+							// disregard all Actors that are not JustACube
+							if (i_actor->IsA(AJustACube::StaticClass())) 
+							{
+								OverlappingCubeCounter++;
+								//UE_LOG(LogTemp, Warning, TEXT("Overlapping with: %s"), *i_actor->GetName());
+							}
+						}
+
+						// if 10 Cubes then delete them and move all cubes above one row down
+						if (OverlappingCubeCounter == 10)
+						{
+							for (const auto& i_actor : OverlappingActors)
+							{
+								if (i_actor->IsA(AJustACube::StaticClass()))
+								{
+									i_actor->Destroy();
+								}
+							}
+							FindAllCubesAboveAndMoveThemDown(0);	//TODO correct Z value
 						}
 			}
 		}
