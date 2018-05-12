@@ -25,6 +25,10 @@ private:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void FindAllCubesAboveAndMoveThemDown(float Z_ThisRow);
+
+	int32 gridsize = 120;
+
 	
 	
 };

@@ -1,7 +1,10 @@
 // Tetris by Lutz
 
-#include "TetrisCollisionBoxes.h"
+#include "../Public/TetrisCollisionBoxes.h"
+#include "../Public/JustACube.h"
+#include "EngineUtils.h"
 #include "Components/BoxComponent.h"
+
 
 
 
@@ -40,16 +43,26 @@ void ATetrisCollisionBoxes::Tick(float DeltaTime)
 			for (const auto& i_actor : OverlappingActors)
 			{
 				i_actor->Destroy();
-
-				// Move all components one row down TODO: should only be all components above it! z.B. Move all overlapping actors if z value is more than 50 more than current ro
-
 				//UE_LOG(LogTemp, Warning, TEXT("Overlapping with: %s"), *i_actor->GetName());
 				//UPrimitiveComponent* thiscomp =  no definition needed
 				//TotalMass += i_actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();		// += addiert drauf
 				//UE_LOG(LogTemp, Warning, TEXT("This is actor: %s"), **FString::SanitizeFloat(TotalMass));
 			}
+
+			// Move all components one row down TODO: should only be all components above it! z.B. Move all overlapping actors if z value is more than 50 more than current ro
+			FindAllCubesAboveAndMoveThemDown(0.f);
 		}
 	}
 	return;
+}
+
+void ATetrisCollisionBoxes::FindAllCubesAboveAndMoveThemDown(float Z_ThisRow)
+{
+	for (TActorIterator<AJustACube> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		FVector Translation = FVector(0, 0, -gridsize);
+		FVector NewLocation = ActorItr->GetActorLocation() + Translation;
+		ActorItr->SetActorLocation(NewLocation);
+	}
 }
 
