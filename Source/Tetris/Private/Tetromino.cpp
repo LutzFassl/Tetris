@@ -1,6 +1,7 @@
 // Tetris by Lutz
 
 #include "../public/Tetromino.h"
+#include "../public/JustACube.h"
 #include "DrawDebugHelpers.h"
 
 
@@ -88,9 +89,10 @@ void ATetromino::Disassemble()
 		
 		//UE_LOG(LogTemp, Warning, TEXT("Material Index: %d"), );
 		
-		ReplacingCubes[y] = GetWorld()->SpawnActor<AActor>(CubeType, CubeLocation, FRotator(0, 0, 0));		// Todo rotation necessary by any chance? most probably not
+		ReplacingCubes[y] = GetWorld()->SpawnActor<AJustACube>(CubeType, CubeLocation, FRotator(0, 0, 0));		// Todo rotation necessary by any chance? most probably not
 		
-		ReplaceCubeMesh = Cast<UStaticMeshComponent>(ReplacingCubes[y]);		// color setting doesnt work. why?
+		//ReplaceCubeMesh = Cast<UStaticMeshComponent>(ReplacingCubes[y]);		// color setting doesnt work. why?
+		ReplaceCubeMesh = ReplacingCubes[y]->FindComponentByClass<UStaticMeshComponent>();
 		if (!ensure(ReplaceCubeMesh)) { return; }
 		ReplaceCubeMesh->SetMaterial(0, thisMaterial);	
 	}

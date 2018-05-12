@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "Tetromino.generated.h"
 
+class AJustACube;
+
 
 UENUM()		//"BlueprintType" is essential to include
 enum class EDirection : uint8
@@ -54,7 +56,7 @@ private:
 	
 	// Pointers
 	TArray<UStaticMeshComponent*> Cubes;	//own cubes before disassembly
-	TArray<AActor*> ReplacingCubes = { nullptr,nullptr,nullptr,nullptr };		// or AActor
+	TArray<AJustACube*> ReplacingCubes = { nullptr,nullptr,nullptr,nullptr };		// or AActor
 	
 	UPROPERTY(EditAnywhere)
 	float UserMoveSpeed = 10;
@@ -66,7 +68,7 @@ private:
 	int32 gridsize = 120;
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	TSubclassOf<AActor> CubeType;
+	TSubclassOf<AJustACube> CubeType;
 	//TSubclassOf<UStaticMeshComponent> CubeType;
 };
 
